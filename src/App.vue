@@ -1,14 +1,20 @@
 <script setup>
-import Navbar from "./components/Navbar.vue";
-import Hero from "./components/Hero.vue";
-import Filter from "./components/Filter.vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import Card from "./components/Card.vue";
-import { onMounted, onUnmounted, ref } from "vue";
+import Filter from "./components/Filter.vue";
+import Hero from "./components/Hero.vue";
+import Navbar from "./components/Navbar.vue";
 
 const pokemons = ref([]);
+const filteredPokemons = computed(() =>
+  pokemons.value.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
 const offset = ref(0);
 const limit = 20;
 const isLoading = ref(false);
+const searchQuery = ref("");
 
 const loadMorePokemons = async () => {
   if (isLoading.value) return;
@@ -65,6 +71,10 @@ const handleScroll = () => {
   }
 };
 
+const handleSearch = (query) => {
+  searchQuery.value = query;
+};
+
 onMounted(() => {
   loadMorePokemons();
   window.addEventListener("scroll", handleScroll);
@@ -77,8 +87,7 @@ onUnmounted(() => {
 
 <template>
   <Navbar />
-  <Hero />
-  <Filter />
+  <Hero @search="handleSearch" />
 
   <!-- Liste des Pokémon -->
   <div class="container mx-auto px-4 py-8">
@@ -90,7 +99,18 @@ onUnmounted(() => {
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
       name="fade"
     >
-      <Card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
+      <Card
+        v-for="pokemon in filteredPokemons"
+        :key="pokemon.id"
+        :pokemon="pokemon"
+      />
+      <div
+        class="col-span-full text-center text-gray-500 text-lg font-bold"
+        v-if="filteredPokemons.length === 0"
+      >
+        <img class="w-1/3 mx-auto" src="./assets/page-empty.png" alt="" />
+        <p class="text-center">Aucun Pokémon trouvé.</p>
+      </div>
     </TransitionGroup>
 
     <!-- Loader -->

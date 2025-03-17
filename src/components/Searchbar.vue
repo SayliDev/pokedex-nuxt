@@ -4,15 +4,11 @@
       type="text"
       placeholder="Rechercher un Pokémon..."
       class="input input-bordered w-full"
+      @input="$emit('search', $event.target.value)"
     />
-    <button class="btn btn-square btn-primary">
-      <SearchIcon class="w-6 h-6" />
-    </button>
   </div>
 </template>
 
-<script setup lang="ts">
-import { SearchIcon } from "lucide-vue-next";
+<script setup>
+defineEmits(["search"]);
 </script>
-
-<style></style>

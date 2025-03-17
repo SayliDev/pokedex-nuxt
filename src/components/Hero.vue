@@ -7,14 +7,14 @@
           Découvrez tous les Pokémon, leurs caractéristiques et ajoutez-les à
           votre équipe!
         </p>
-        <Searchbar />
+        <Searchbar @search="$emit('search', $event)" />
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Searchbar from "./Searchbar.vue";
-</script>
 
-<style></style>
+defineEmits(["search"]);
+</script>
