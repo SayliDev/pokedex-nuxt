@@ -72,7 +72,10 @@
         >
           <PlusIcon class="w-5 h-5" /> Ajouter à l'équipe
         </button>
-        <button class="btn btn-ghost btn-sm w-full gap-1 transition-all">
+        <button
+          class="btn btn-ghost btn-sm w-full gap-1 transition-all"
+          @click="store.openPokemonDetails(pokemon)"
+        >
           <Info class="w-4 h-4" /> Détails
         </button>
       </div>
@@ -83,6 +86,9 @@
 <script setup lang="ts">
 import { PlusIcon, Info } from "lucide-vue-next";
 import { computed } from "vue";
+import { usePokemonStore } from "../stores/pokemonStore";
+
+const store = usePokemonStore();
 
 const props = defineProps({
   pokemon: {
