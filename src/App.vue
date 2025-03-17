@@ -3,13 +3,21 @@ import Navbar from "./components/Navbar.vue";
 import Hero from "./components/Hero.vue";
 import Filter from "./components/Filter.vue";
 import Card from "./components/Card.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const pokemons = ref([]);
+const offset = ref(0);
+const limit = 20;
+const isLoading = ref(false);
 
-onMounted(async () => {
+const loadMorePokemons = async () => {
+  if (isLoading.value) return;
+  isLoading.value = true;
+
   try {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=40");
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?offset=${offset.value}&limit=${limit}`
+    );
     const data = await response.json();
 
     const pokemonDetails = await Promise.all(
@@ -26,7 +34,7 @@ onMounted(async () => {
           speciesData.names.find((n) => n.language.name === "fr")?.name ||
           details.name;
 
-        const pokemonData = {
+        return {
           id: details.id,
           name: frenchName,
           sprite: details.sprites.other.home.front_default,
@@ -39,16 +47,31 @@ onMounted(async () => {
             value: base_stat,
           })),
         };
-
-        return pokemonData;
       })
     );
 
-    pokemons.value = pokemonDetails;
-    console.log(pokemons.value);
+    pokemons.value.push(...pokemonDetails);
+    offset.value += limit;
   } catch (error) {
     console.error("Erreur lors du chargement des Pokémon :", error);
+  } finally {
+    isLoading.value = false;
   }
+};
+
+const handleScroll = () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+    loadMorePokemons();
+  }
+};
+
+onMounted(() => {
+  loadMorePokemons();
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
@@ -61,12 +84,50 @@ onMounted(async () => {
   <div class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold mb-6 text-center">Pokémon populaires</h2>
 
-    <div
+    <!-- Transition douce -->
+    <TransitionGroup
+      tag="div"
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      name="fade"
     >
-      <Card v-for="pokemon in pokemons" :pokemon="pokemon" />
+      <Card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
+    </TransitionGroup>
+
+    <!-- Loader -->
+    <div v-if="isLoading" class="text-center my-4">
+      <span class="loading loading-spinner loading-xl"></span>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.fade-leave-active {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+</style>
