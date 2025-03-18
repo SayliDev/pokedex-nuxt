@@ -143,7 +143,10 @@
         <!-- Actions -->
         <div class="modal-action mt-6">
           <form method="dialog" class="flex gap-2 w-full">
-            <button class="btn btn-primary flex-1" @click="addToTeam">
+            <button
+              class="btn btn-primary flex-1"
+              @click="teamStore.addToTeam(store.selectedPokemon)"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 mr-1"
@@ -181,13 +184,16 @@ import {
   getStatBarColor,
   getTypeBadgeColor,
   getTypeColor,
+  formatId,
 } from "../utils/pokemonUtils";
+import { useTeamStore } from "../stores/teamStore";
 
 const store = usePokemonStore();
+const teamStore = useTeamStore();
 
-const formatId = (id: number) => {
-  return id.toString().padStart(3, "0");
-};
+// const formatId = (id: number) => {
+//   return id.toString().padStart(3, "0");
+// };
 
 // Calcule la classe de couleur en fonction du type principal
 const typeColorClasses = computed(() => {
@@ -195,12 +201,6 @@ const typeColorClasses = computed(() => {
   const primaryType = store.selectedPokemon.types?.[0] || "normal";
   return getTypeColor(primaryType);
 });
-
-// TODO:Fonction d'ajout à l'équipe
-const addToTeam = () => {
-  // store.addToTeam(store.selectedPokemon);
-  store.closeModal();
-};
 </script>
 
 <style>

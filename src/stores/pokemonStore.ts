@@ -10,6 +10,7 @@ export const usePokemonStore = defineStore("pokemon", () => {
   const searchQuery = ref("");
   const selectedPokemon = ref<Pokemon | null>(null);
   const isModalOpen = ref(false);
+  const isDrawerOpen = ref(false);
 
   const filteredPokemons = computed(() =>
     pokemons.value.filter((pokemon) =>
@@ -91,6 +92,14 @@ export const usePokemonStore = defineStore("pokemon", () => {
     isModalOpen.value = false;
   };
 
+  const openPokemonDrawer = () => {
+    isDrawerOpen.value = true;
+  };
+
+  const closeDrawer = () => {
+    isDrawerOpen.value = false;
+  };
+
   return {
     pokemons,
     filteredPokemons,
@@ -98,9 +107,12 @@ export const usePokemonStore = defineStore("pokemon", () => {
     searchQuery,
     selectedPokemon,
     isModalOpen,
+    isDrawerOpen,
     loadMorePokemons,
     setSearchQuery,
     openPokemonDetails,
     closeModal,
+    openPokemonDrawer,
+    closeDrawer,
   };
 });

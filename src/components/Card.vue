@@ -2,7 +2,6 @@
   <div
     class="pokemon-card group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-300 cursor-pointer hover:shadow-xl hover:scale-105"
     :class="typeColorClasses"
-    @click="store.openPokemonDetails(pokemon)"
   >
     <!-- Pattern de fond -->
     <div
@@ -32,6 +31,7 @@
     <!-- Conteneur image Pokémon -->
     <div
       class="pokemon-sprite-container relative pt-12 pb-4 px-6 flex justify-center items-center"
+      @click="store.openPokemonDetails(pokemon)"
     >
       <div class="absolute inset-0 flex justify-center items-center opacity-10">
         <div
@@ -68,6 +68,7 @@
       <div class="flex flex-col gap-2">
         <button
           class="btn btn-primary w-full gap-1 hover:gap-2 hover:scale-105 hover:rotate-3 transition-all"
+          @click="handleAddToTeam(pokemon)"
         >
           <PlusIcon class="w-5 h-5" /> Ajouter à l'équipe
         </button>
@@ -82,15 +83,18 @@
 </template>
 
 <script setup lang="ts">
-import { PlusIcon, Info } from "lucide-vue-next";
+import { Info, PlusIcon } from "lucide-vue-next";
 import { computed } from "vue";
 import { usePokemonStore } from "../stores/pokemonStore";
+import { useTeamStore } from "../stores/teamStore";
 import type { Pokemon } from "../types/PokemonType";
 import {
   formatId,
-  getTypeColor,
   getTypeBadgeColor,
+  getTypeColor,
 } from "../utils/pokemonUtils";
+
+const teamStore = useTeamStore();
 
 const store = usePokemonStore();
 
@@ -101,7 +105,11 @@ const props = defineProps({
   },
 });
 
-// Calcule la couleur de fond en fonction du type du Pokémon
+const handleAddToTeam = (pokemon: Pokemon) => {
+  teamStore.addToTeam(pokemon);
+};
+
+// Couleur de fond en fonction du type du Pokémon
 const typeColorClasses = computed(() => {
   const primaryType = props.pokemon.types?.[0] || "normal";
   return getTypeColor(primaryType);

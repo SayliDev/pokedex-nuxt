@@ -5,6 +5,8 @@ import DetailModal from "./components/DetailModal.vue";
 import Hero from "./components/Hero.vue";
 import Navbar from "./components/Navbar.vue";
 import { usePokemonStore } from "./stores/pokemonStore";
+import TeamDrawer from "./components/TeamDrawer.vue";
+import DrawerHandle from "./components/DrawerHandle.vue";
 
 const store = usePokemonStore();
 
@@ -49,9 +51,9 @@ onUnmounted(() => {
       />
       <div
         class="col-span-full text-center text-gray-500 text-lg font-bold"
-        v-if="store.filteredPokemons.length === 0"
+        v-if="store.filteredPokemons.length === 0 && store.searchQuery"
       >
-        <img class="w-1/3 mx-auto" src="./assets/page-empty.png" alt="" />
+        <img class="w-1/4 mx-auto" src="./assets/page-empty.png" alt="" />
         <p class="text-center">Aucun Pokémon trouvé.</p>
       </div>
     </TransitionGroup>
@@ -62,8 +64,9 @@ onUnmounted(() => {
     </div>
   </div>
 
-  <!-- Modal de détail -->
   <DetailModal />
+  <TeamDrawer />
+  <DrawerHandle />
 </template>
 
 <style scoped>
