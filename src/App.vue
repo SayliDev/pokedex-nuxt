@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
-import { usePokemonStore } from "./stores/pokemonStore";
 import Card from "./components/Card.vue";
+import DetailModal from "./components/DetailModal.vue";
 import Hero from "./components/Hero.vue";
 import Navbar from "./components/Navbar.vue";
-import DetailModal from "./components/DetailModal.vue";
+import { usePokemonStore } from "./stores/pokemonStore";
 
 const store = usePokemonStore();
 
@@ -37,7 +37,6 @@ onUnmounted(() => {
   <div class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold mb-6 text-center">Pokémon populaires</h2>
 
-    <!-- Transition douce -->
     <TransitionGroup
       tag="div"
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
@@ -66,6 +65,7 @@ onUnmounted(() => {
   <!-- Modal de détail -->
   <DetailModal />
 </template>
+
 <style scoped>
 .fade-enter-active {
   animation: fadeInUp 0.5s ease forwards;

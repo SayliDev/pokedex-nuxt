@@ -1,20 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-
-interface Pokemon {
-  id: number;
-  name: string;
-  sprite: string;
-  types: string[];
-  stats: { name: string; value: number }[];
-  height: number;
-  weight: number;
-  abilities: string[];
-}
-
-interface PokemonSpecies {
-  names: { name: string; language: { name: string } }[];
-}
+import type { Pokemon, PokemonSpecies } from "../types/PokemonType";
 
 export const usePokemonStore = defineStore("pokemon", () => {
   const pokemons = ref<Pokemon[]>([]);
