@@ -11,7 +11,6 @@
     >
       <!-- Header -->
       <div class="relative p-6 pb-24 text-white" :class="typeColorClasses">
-        <!-- Motif en Backround -->
         <div class="absolute inset-0 opacity-20 bg-pattern"></div>
 
         <div
@@ -20,7 +19,7 @@
           <div class="w-64 h-64 rounded-full border-8 border-white"></div>
         </div>
 
-        <!-- Informations Header -->
+        <!-- Info Header -->
         <div class="flex justify-between items-start z-10 relative">
           <div>
             <h2 class="text-3xl font-bold capitalize mb-1">
@@ -58,17 +57,17 @@
         </div>
       </div>
 
-      <!-- Contenu principal -->
+      <!-- Contenu Main -->
       <div class="px-6 pb-6">
-        <!-- Caractéristiques physiques -->
+        <!-- Caractéristiques -->
         <div class="stats shadow grid grid-cols-2 gap-3 mb-6">
           <div class="stat">
             <div class="stat-figure">
-              <Ruler class="h-7 w-7 opacity-50" />
+              <Ruler class="h-7 w-7 opacity-60" />
             </div>
             <div class="stat-content ml-2">
               <span class="stat-desc text-xs opacity-70">Taille</span>
-              <span class="stat-value font-bold opacity-50"
+              <span class="stat-value font-bold opacity-60"
                 >{{ store.selectedPokemon.height / 10 }} m</span
               >
             </div>
@@ -76,18 +75,18 @@
 
           <div class="stat">
             <div class="stat-figure">
-              <Weight class="h-7 w-7 opacity-50" />
+              <Weight class="h-7 w-7 opacity-60" />
             </div>
             <div class="stat-content ml-2">
               <span class="stat-desc text-xs opacity-70">Poids</span>
-              <span class="stat-value font-bold opacity-50"
+              <span class="stat-value font-bold opacity-60"
                 >{{ store.selectedPokemon.weight / 10 }} kg</span
               >
             </div>
           </div>
         </div>
 
-        <!-- Statistiques -->
+        <!-- Stats -->
         <h4 class="font-bold mb-3 text-lg flex items-center">
           <ChartBar class="h-5 w-5 mr-2" />
           Statistiques
@@ -101,7 +100,7 @@
           >
             <div class="flex justify-between mb-1">
               <span class="text-sm font-medium capitalize">{{
-                stat.name
+                formatStatName(stat.name)
               }}</span>
               <span class="text-sm font-medium">{{ stat.value }}</span>
             </div>
@@ -178,24 +177,20 @@
 
 <script setup lang="ts">
 import { ChartBar, Ruler, Weight, Zap } from "lucide-vue-next";
-import { usePokemonStore } from "../stores/pokemonStore";
 import { computed } from "vue";
+import { usePokemonStore } from "../stores/pokemonStore";
+import { useTeamStore } from "../stores/teamStore";
 import {
+  formatId,
+  formatStatName,
   getStatBarColor,
   getTypeBadgeColor,
   getTypeColor,
-  formatId,
 } from "../utils/pokemonUtils";
-import { useTeamStore } from "../stores/teamStore";
 
 const store = usePokemonStore();
 const teamStore = useTeamStore();
 
-// const formatId = (id: number) => {
-//   return id.toString().padStart(3, "0");
-// };
-
-// Calcule la classe de couleur en fonction du type principal
 const typeColorClasses = computed(() => {
   if (!store.selectedPokemon) return "";
   const primaryType = store.selectedPokemon.types?.[0] || "normal";

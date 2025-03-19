@@ -3,7 +3,7 @@ export const formatId = (id: number): string => {
   return id.toString().padStart(3, "0");
 };
 
-// Mapping des couleurs par type
+// Mapping couleurs par type
 const typeColors: Record<string, string> = {
   normal: "bg-gray-500",
   fire: "bg-gradient-to-br from-orange-400 to-red-500",
@@ -29,7 +29,7 @@ export const getTypeColor = (type: string): string => {
   return typeColors[type] || typeColors.normal;
 };
 
-// Mapping des couleurs par type pour les badges
+// Mapping couleurs par type pour les badges
 const badgeColors: Record<string, string> = {
   normal: "bg-gray-500",
   fire: "bg-orange-500",
@@ -55,7 +55,7 @@ export const getTypeBadgeColor = (type: string): string => {
   return badgeColors[type] || badgeColors.normal;
 };
 
-// Couleurs pour les barres de statistiques
+// Couleurs pour les barres de stats
 const statColors: Record<string, string> = {
   hp: "bg-red-500",
   attack: "bg-orange-500",
@@ -67,4 +67,16 @@ const statColors: Record<string, string> = {
 
 export const getStatBarColor = (statName: string): string => {
   return statColors[statName.toLowerCase()] || "bg-gray-500";
+};
+
+export const formatStatName = (statName: string) => {
+  const statNameMap = {
+    hp: "HP",
+    attack: "Attaque",
+    defense: "Défense",
+    "special-attack": "Att. Spé.",
+    "special-defense": "Déf. Spé.",
+    speed: "Vitesse",
+  };
+  return statNameMap[statName as keyof typeof statNameMap] || statName;
 };
