@@ -310,7 +310,10 @@
 
             <!-- Boutons d'action -->
             <div class="flex justify-center gap-4 mt-8">
-              <button class="btn btn-primary gap-2">
+              <button
+                class="btn btn-primary gap-2"
+                @click="handleAddToTeam(pokemon)"
+              >
                 <Plus class="h-5 w-5" />
                 Ajouter à l'équipe
               </button>
@@ -356,7 +359,9 @@ import {
 } from "lucide-vue-next";
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useTeamStore } from "@/stores/teamStore";
 
+const teamStore = useTeamStore();
 const route = useRoute();
 const router = useRouter();
 const pokemon = ref(null);
@@ -368,7 +373,19 @@ onMounted(async () => {
     const res = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${route.params.id}`
     );
-    pokemon.value = await res.json();
+    const pokemonData = await res.json();
+    const speciesRes = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${route.params.id}/`
+    );
+    const speciesData = await speciesRes.json();
+    const frenchName =
+      speciesData.names.find((n) => n.language.name === "fr")?.name ||
+      pokemonData.name;
+    pokemon.value = {
+      ...pokemonData,
+      name: frenchName,
+    };
+
     await new Promise((resolve) => setTimeout(resolve, 600));
   } catch (error) {
     console.error("Erreur lors du chargement du Pokémon:", error);
@@ -376,6 +393,21 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+const handleAddToTeam = (pokemon) => {
+  const formattedPokemon = {
+    id: pokemon.id,
+    name: pokemon.name,
+    types: pokemon.types.map((t) => t.type.name),
+    stats: pokemon.stats.map((s) => ({
+      name: s.stat.name,
+      value: s.base_stat,
+    })),
+    sprite: getHighResImage(pokemon),
+  };
+
+  teamStore.addToTeam(formattedPokemon);
+};
 
 const goBack = () => {
   isLeaving.value = true;
