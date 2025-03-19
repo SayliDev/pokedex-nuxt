@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
-import Card from "./components/Card.vue";
-import DetailModal from "./components/DetailModal.vue";
-import Hero from "./components/Hero.vue";
-import Navbar from "./components/Navbar.vue";
-import { usePokemonStore } from "./stores/pokemonStore";
-import TeamDrawer from "./components/TeamDrawer.vue";
-import DrawerHandle from "./components/DrawerHandle.vue";
+import Card from "../components/Card.vue";
+import DetailModal from "../components/DetailModal.vue";
+import Hero from "../components/Hero.vue";
+import Navbar from "../components/Navbar.vue";
+import { usePokemonStore } from "../stores/pokemonStore";
+import TeamDrawer from "../components/TeamDrawer.vue";
+import DrawerHandle from "../components/DrawerHandle.vue";
 
 const store = usePokemonStore();
 

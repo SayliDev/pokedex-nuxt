@@ -49,13 +49,15 @@ export const useTeamStore = defineStore("team", () => {
   };
 
   const loadTeam = () => {
-    const savedTeam = localStorage.getItem("pokemon-team");
-    if (savedTeam) {
-      try {
-        team.value = JSON.parse(savedTeam);
-      } catch (error) {
-        console.error("Erreur lors du chargement de l'équipe :", error);
-        clearTeam();
+    if (import.meta.env.SSR === false) {
+      const savedTeam = localStorage.getItem("pokemon-team");
+      if (savedTeam) {
+        try {
+          team.value = JSON.parse(savedTeam);
+        } catch (error) {
+          console.error("Erreur lors du chargement de l'équipe :", error);
+          clearTeam();
+        }
       }
     }
   };
