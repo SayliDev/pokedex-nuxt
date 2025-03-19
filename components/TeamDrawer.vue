@@ -56,7 +56,7 @@
                 <div
                   class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-lg"
                 >
-                  <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                  <div class="relative flex-1 px-4 sm:px-6">
                     <div class="flex flex-col h-full">
                       <!-- Header -->
                       <div class="mb-6">

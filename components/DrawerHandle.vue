@@ -15,5 +15,3 @@ import { PanelRightOpen } from "lucide-vue-next";
 import { usePokemonStore } from "../stores/pokemonStore";
 const store = usePokemonStore();
 </script>
-
-<style></style>
