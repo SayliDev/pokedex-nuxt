@@ -12,6 +12,12 @@ if (import.meta.client) {
   <html lang="fr" data-theme="bumblebee">
     <body data-theme="bumblebee">
       <NuxtPage />
+      <Toast
+        :message="teamStore.toastMessage"
+        :toast-type="teamStore.toastType"
+        :show-toast="teamStore.showToast"
+        @hide="teamStore.hideToast"
+      />
     </body>
   </html>
 </template>

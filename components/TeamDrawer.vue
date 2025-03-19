@@ -263,8 +263,9 @@ const clearTeam = () => {
 };
 
 const saveTeam = () => {
-  teamStore.saveTeam();
-  // TODO:Ajouter feedback
+  console.log("Saving team...");
+
+  teamStore.saveTeamAndShowToast();
 };
 </script>
 
