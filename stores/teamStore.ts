@@ -20,21 +20,18 @@ export const useTeamStore = defineStore("team", () => {
 
   // Actions
   const addToTeam = (pokemon: Pokemon) => {
-    console.log("Flag 1");
     if (team.value.length < maxTeamSize) {
-      console.log("Flag 2");
-
       team.value.push(pokemon);
+      saveTeam();
       return true;
-    } else {
-      console.warn("Votre équipe est complète (6 Pokémon maximum).");
-      return false;
     }
+    return false;
   };
 
   const removeFromTeam = (index: number) => {
     if (index >= 0 && index < team.value.length) {
       team.value.splice(index, 1);
+      saveTeam();
       return true;
     }
     return false;
@@ -49,7 +46,7 @@ export const useTeamStore = defineStore("team", () => {
   };
 
   const loadTeam = () => {
-    if (import.meta.env.SSR === false) {
+    if (import.meta.client) {
       const savedTeam = localStorage.getItem("pokemon-team");
       if (savedTeam) {
         try {
