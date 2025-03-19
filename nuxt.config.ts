@@ -3,5 +3,5 @@ export default defineNuxtConfig({
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss"],
 
   devtools: { enabled: true },
-  css: ["~/assets/css/tailwind.css"], // Assurez-vous que le chemin est correct
+  css: ["~/assets/css/tailwind.css"],
 });
