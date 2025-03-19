@@ -16,7 +16,7 @@ const handleScroll = () => {
   }
 };
 
-const handleSearch = (query) => {
+const handleSearch = (query: string) => {
   store.setSearchQuery(query);
 };
 
@@ -53,7 +53,7 @@ onUnmounted(() => {
         class="col-span-full text-center text-gray-500 text-lg font-bold"
         v-if="store.filteredPokemons.length === 0 && store.searchQuery"
       >
-        <img class="w-1/4 mx-auto" src="./assets/page-empty.png" alt="" />
+        <img class="w-1/4 mx-auto" src="@/assets/page-empty.png" alt="" />
         <p class="text-center">Aucun Pokémon trouvé.</p>
       </div>
     </TransitionGroup>
