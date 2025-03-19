@@ -74,97 +74,107 @@
                         v-if="teamStore.team.length > 0"
                         class="space-y-4 flex-1 overflow-y-auto"
                       >
-                        <div
-                          v-for="(pokemon, index) in teamStore.team"
-                          :key="pokemon.id"
-                          class="pokemon-team-card group"
+                        <draggable
+                          v-model="teamStore.team"
+                          item-key="id"
+                          class="space-y-4"
+                          ghost-class="ghost-card"
+                          handle=".pokemon-team-content"
+                          @end="onDragEnd"
                         >
-                          <div
-                            class="pokemon-team-content relative rounded-lg shadow-md p-3 flex items-center"
-                            :class="
-                              getTypeColor(pokemon.types?.[0] || 'normal')
-                            "
-                          >
-                            <!-- Pattern  -->
-                            <div
-                              class="absolute inset-0 rounded-lg opacity-15 bg-pattern"
-                            ></div>
+                          <template #item="{ element: pokemon, index }">
+                            <div class="pokemon-team-card group">
+                              <div
+                                class="pokemon-team-content relative rounded-lg shadow-md p-3 flex items-center cursor-move"
+                                :class="
+                                  getTypeColor(pokemon.types?.[0] || 'normal')
+                                "
+                              >
+                                <!-- Pattern  -->
+                                <div
+                                  class="absolute inset-0 rounded-lg opacity-20 bg-pattern"
+                                ></div>
 
-                            <!-- Image Pokémon -->
-                            <div class="pokemon-team-image flex-shrink-0">
-                              <img
-                                :src="pokemon.sprite"
-                                :alt="pokemon.name"
-                                class="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-300"
-                              />
-                            </div>
+                                <!-- Image Pokémon -->
+                                <div class="pokemon-team-image flex-shrink-0">
+                                  <img
+                                    :src="pokemon.sprite"
+                                    :alt="pokemon.name"
+                                    class="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-300"
+                                  />
+                                </div>
 
-                            <!-- Infos Pokémon -->
-                            <div class="pokemon-team-info ml-3 flex-1">
-                              <div class="flex justify-between items-start">
-                                <div>
-                                  <h4 class="font-bold capitalize text-white">
-                                    {{ pokemon.name }}
-                                  </h4>
-                                  <div class="flex gap-1 mt-1">
+                                <!-- Infos Pokémon -->
+                                <div class="pokemon-team-info ml-3 flex-1">
+                                  <div class="flex justify-between items-start">
+                                    <div>
+                                      <h4
+                                        class="font-bold capitalize text-white"
+                                      >
+                                        {{ pokemon.name }}
+                                      </h4>
+                                      <div class="flex gap-1 mt-1">
+                                        <span
+                                          v-for="type in pokemon.types"
+                                          :key="type"
+                                          class="badge badge-sm text-xs capitalize text-white"
+                                          :class="getTypeBadgeColor(type)"
+                                        >
+                                          {{ type }}
+                                        </span>
+                                      </div>
+                                    </div>
                                     <span
-                                      v-for="type in pokemon.types"
-                                      :key="type"
-                                      class="badge badge-sm text-xs capitalize text-white"
-                                      :class="getTypeBadgeColor(type)"
+                                      class="text-sm font-bold text-white opacity-80"
                                     >
-                                      {{ type }}
+                                      #{{ formatId(pokemon.id) }}
                                     </span>
                                   </div>
+
+                                  <!-- Mini stats -->
+                                  <div class="grid grid-cols-3 gap-1 mt-2">
+                                    <div class="mini-stat">
+                                      <span class="mini-stat-value">{{
+                                        pokemon.stats.find(
+                                          (s) => s.name === "hp"
+                                        )?.value || "?"
+                                      }}</span>
+                                      <span class="mini-stat-label">HP</span>
+                                    </div>
+                                    <div class="mini-stat">
+                                      <span class="mini-stat-value">{{
+                                        pokemon.stats.find(
+                                          (s) => s.name === "attack"
+                                        )?.value || "?"
+                                      }}</span>
+                                      <span class="mini-stat-label">ATK</span>
+                                    </div>
+                                    <div class="mini-stat">
+                                      <span class="mini-stat-value">{{
+                                        pokemon.stats.find(
+                                          (s) => s.name === "defense"
+                                        )?.value || "?"
+                                      }}</span>
+                                      <span class="mini-stat-label">DEF</span>
+                                    </div>
+                                  </div>
                                 </div>
-                                <span
-                                  class="text-sm font-bold text-white opacity-80"
+
+                                <!-- Actions -->
+                                <div
+                                  class="pokemon-team-actions flex-shrink-0 ml-2 z-40"
                                 >
-                                  #{{ formatId(pokemon.id) }}
-                                </span>
-                              </div>
-
-                              <!-- Mini stats -->
-                              <div class="grid grid-cols-3 gap-1 mt-2">
-                                <div class="mini-stat">
-                                  <span class="mini-stat-value">{{
-                                    pokemon.stats.find((s) => s.name === "hp")
-                                      ?.value || "?"
-                                  }}</span>
-                                  <span class="mini-stat-label">HP</span>
-                                </div>
-                                <div class="mini-stat">
-                                  <span class="mini-stat-value">{{
-                                    pokemon.stats.find(
-                                      (s) => s.name === "attack"
-                                    )?.value || "?"
-                                  }}</span>
-                                  <span class="mini-stat-label">ATK</span>
-                                </div>
-                                <div class="mini-stat">
-                                  <span class="mini-stat-value">{{
-                                    pokemon.stats.find(
-                                      (s) => s.name === "defense"
-                                    )?.value || "?"
-                                  }}</span>
-                                  <span class="mini-stat-label">DEF</span>
+                                  <button
+                                    @click="removePokemon(index)"
+                                    class="btn btn-circle btn-sm bg-white/20 border-none text-white hover:bg-white/40"
+                                  >
+                                    <X class="h-4 w-4" />
+                                  </button>
                                 </div>
                               </div>
                             </div>
-
-                            <!-- Actions -->
-                            <div
-                              class="pokemon-team-actions flex-shrink-0 ml-2 z-40"
-                            >
-                              <button
-                                @click="removePokemon(index)"
-                                class="btn btn-circle btn-sm bg-white/20 border-none text-white hover:bg-white/40"
-                              >
-                                <X class="h-4 w-4" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                          </template>
+                        </draggable>
                       </div>
 
                       <!-- Message équipe vide -->
@@ -227,27 +237,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
 import { ChartNoAxesGantt, Save, Trash2, X, XCircle } from "lucide-vue-next";
+import { computed, ref } from "vue";
+import draggable from "vuedraggable";
 import { usePokemonStore } from "../stores/pokemonStore";
 import { useTeamStore } from "../stores/teamStore";
 import {
+  formatId,
   getTypeBadgeColor,
   getTypeColor,
-  formatId,
 } from "../utils/pokemonUtils";
-import { computed } from "vue";
 
 const store = usePokemonStore();
 const teamStore = useTeamStore();
-
 const randomPokemonId = ref(Math.floor(Math.random() * 100) + 1);
 const randomPokemonUrl = computed(
   () =>
@@ -301,5 +309,15 @@ const saveTeam = () => {
   font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
+}
+.ghost-card {
+  opacity: 0.5;
+  background: #ccc;
+  border: 1px dashed #333;
+  border-radius: 0.5rem;
+}
+
+.pokemon-team-content {
+  transition: background-color 0.2s;
 }
 </style>
