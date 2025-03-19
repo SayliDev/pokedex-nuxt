@@ -1,6 +1,6 @@
 <template>
   <div
-    class="drawer-handle fixed top-1/2 -translate-y-1/2 right-0 bg-primary hover:bg-primary-focus text-primary-content p-2 rounded-l-lg shadow-lg cursor-pointer transition-all duration-500 flex items-center justify-center"
+    class="drawer-handle fixed top-1/2 -translate-y-1/2 right-0 bg-primary hover:bg-primary-focus text-primary-content p-2 rounded-l-lg shadow-lg cursor-pointer transition-all duration-500 flex items-center justify-center z-30"
     :class="{
       'opacity-0 pointer-events-none translate-x-full': store.isDrawerOpen,
     }"

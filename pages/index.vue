@@ -36,7 +36,7 @@ onUnmounted(() => {
 
     <TransitionGroup
       tag="div"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      class="flex flex-wrap gap-6 justify-center sm:justify-between"
       name="fade"
     >
       <Card

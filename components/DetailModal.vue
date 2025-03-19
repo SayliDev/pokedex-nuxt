@@ -6,7 +6,7 @@
     class="modal"
   >
     <div
-      class="modal-box max-w-xl p-0 overflow-hidden"
+      class="modal-box max-w-xl p-0 overflow-hidden max-h-[90vh] overflow-y-auto"
       v-if="store.selectedPokemon"
     >
       <!-- Header -->
@@ -60,28 +60,34 @@
       <!-- Contenu Main -->
       <div class="px-6 pb-6">
         <!-- Caractéristiques -->
-        <div class="stats shadow grid grid-cols-2 gap-3 mb-6">
-          <div class="stat">
+        <div
+          class="stats shadow grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4 mb-6 sm:grid-cols-1"
+        >
+          <div class="stat flex items-center">
             <div class="stat-figure">
               <Ruler class="h-7 w-7 opacity-60" />
             </div>
             <div class="stat-content ml-2">
               <span class="stat-desc text-xs opacity-70">Taille</span>
-              <span class="stat-value font-bold opacity-60"
-                >{{ store.selectedPokemon.height / 10 }} m</span
+              <span
+                class="stat-value font-bold opacity-60 text-sm sm:text-base md:text-lg"
               >
+                {{ store.selectedPokemon.height / 10 }} m
+              </span>
             </div>
           </div>
 
-          <div class="stat">
+          <div class="stat flex items-center">
             <div class="stat-figure">
               <Weight class="h-7 w-7 opacity-60" />
             </div>
             <div class="stat-content ml-2">
               <span class="stat-desc text-xs opacity-70">Poids</span>
-              <span class="stat-value font-bold opacity-60"
-                >{{ store.selectedPokemon.weight / 10 }} kg</span
+              <span
+                class="stat-value font-bold opacity-60 text-sm sm:text-base md:text-lg"
               >
+                {{ store.selectedPokemon.weight / 10 }} kg
+              </span>
             </div>
           </div>
         </div>

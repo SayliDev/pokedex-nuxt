@@ -1,8 +1,6 @@
 <template>
   <Teleport to="body">
-    <div
-      class="toast-container fixed bottom-4 right-4 z-50 pointer-events-none"
-    >
+    <div class="toast-container fixed bottom-4 right-4 pointer-events-none">
       <Transition
         name="toast"
         @before-enter="onBeforeEnter"
@@ -139,6 +137,7 @@ const onAfterLeave = (el: Element) => {
   align-items: flex-end;
   gap: 0.5rem;
   max-width: 24rem;
+  z-index: 100;
 }
 
 .toast-content {
@@ -149,7 +148,6 @@ const onAfterLeave = (el: Element) => {
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Pour les animations basées sur classes (alternative à l'API) */
 .toast-enter-active {
   animation: toast-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
