@@ -29,20 +29,23 @@ onUnmounted(() => {
 
 <template>
   <Hero @search="handleSearch" />
-
   <!-- Liste des Pokémon -->
   <div class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold mb-6 text-center">Pokémon populaires</h2>
-
     <TransitionGroup
       tag="div"
-      class="flex flex-wrap gap-6 justify-center sm:justify-between"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
       name="fade"
     >
       <Card
         v-for="pokemon in store.filteredPokemons"
         :key="pokemon.id"
         :pokemon="pokemon"
+        class="mx-auto"
+        :class="{
+          'col-span-full md:col-span-1 md:mx-auto':
+            store.filteredPokemons.length === 1,
+        }"
       />
       <div
         class="col-span-full text-center text-gray-500 text-lg font-bold"
@@ -52,13 +55,11 @@ onUnmounted(() => {
         <p class="text-center">Aucun Pokémon trouvé.</p>
       </div>
     </TransitionGroup>
-
     <!-- Loader -->
     <div v-if="store.isLoading" class="text-center my-4">
       <span class="loading loading-spinner loading-xl"></span>
     </div>
   </div>
-
   <DetailModal />
 </template>
 

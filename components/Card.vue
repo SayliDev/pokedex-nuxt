@@ -5,7 +5,7 @@
   >
     <!-- Pattern de fond -->
     <div
-      class="absolute inset-0 opacity-10 bg-pattern"
+      class="absolute inset-0 opacity-20 bg-pattern"
       style="pointer-events: none"
     ></div>
 
@@ -122,8 +122,13 @@ const typeColorClasses = computed(() => {
 
 <style>
 .pokemon-card {
-  width: 280px;
+  width: 100%;
   transition: all 0.3s ease;
+
+  @media (max-width: 720px) {
+    margin: 0 20px;
+    width: calc(100% - 40px);
+  }
 }
 
 .stat-box {
