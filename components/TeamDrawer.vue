@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="store.isDrawerOpen">
-    <Dialog class="relative z-10" @close="store.closeDrawer()">
+    <Dialog class="relative z-50" @close="store.closeDrawer()">
       <TransitionChild
         as="template"
         enter="ease-in-out duration-500"
